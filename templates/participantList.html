@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Participant List</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #2b328c;
+        --accent: #f46a1c;
+        --light-bg: #f8f9fa;
+        --text-light: #ffffff;
+        --text-dark: #333333;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--light-bg);
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-top: 30px;
+      }
+
+      .logo-container {
+        background-color: white;
+        padding: 4px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+        margin-bottom: 15px;
+      }
+
+      .logo {
+        height: 60px;
+        width: auto;
+      }
+
+      .university-name {
+        font-weight: 700;
+        color: var(--primary);
+        margin: 10px 0 5px 0;
+        font-size: 1.5rem;
+      }
+
+      .university-motto {
+        font-size: 0.9em;
+        color: rgba(0, 0, 0, 0.6);
+        font-style: italic;
+        margin-bottom: 20px;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto 40px;
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: var(--primary);
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 2px solid var(--accent);
+        padding-bottom: 10px;
+        font-weight: 600;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-size: 0.95em;
+      }
+
+      th {
+        background-color: var(--primary);
+        color: white;
+        padding: 14px 16px;
+        text-align: left;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+
+      td {
+        padding: 12px 16px;
+        border-bottom: 1px solid #eee;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+
+      .accent {
+        color: var(--accent);
+        font-weight: 500;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 20px;
+        font-style: italic;
+        color: var(--accent);
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 20px;
+          margin: 0 15px 30px;
+        }
+
+        .logo {
+          height: 50px;
+        }
+
+        .university-name {
+          font-size: 1.3rem;
+        }
+
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        th,
+        td {
+          padding: 10px 12px;
+          font-size: 0.9em;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .header {
+          padding-top: 20px;
+        }
+
+        .logo {
+          height: 40px;
+        }
+
+        .container {
+          padding: 15px;
+        }
+
+        table {
+          display: block;
+          overflow-x: auto;
+          white-space: nowrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo-container">
+        <img
+          class="logo"
+          src="https://static.wixstatic.com/media/6685d7_686c085bd3864f3e8ae805bfc3407db3~mv2.png/v1/fill/w_420,h_393,al_c,lg_1,q_85,enc_avif,quality_auto/MRU-Logo2.png"
+          alt="Mallareddy University Logo"
+        />
+      </div>
+      <div class="university-name">Mallareddy University</div>
+    </div>
+
+    <div class="container">
+      <h1>Event Participants</h1>
+
+      <div id="loading" class="loading">Loading participants data...</div>
+
+      <table id="participantsTable" style="display: none">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Participant Name</th>
+            <th>Roll No</th>
+            <th>Event Name</th>
+          </tr>
+        </thead>
+        <tbody id="participantsBody">
+          <!-- Data will be inserted here by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch("/participants")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            const tableBody = document.getElementById("participantsBody");
+            const loadingDiv = document.getElementById("loading");
+            const table = document.getElementById("participantsTable");
+
+            // Hide loading message and show table
+            loadingDiv.style.display = "none";
+            table.style.display = "table";
+
+            // Populate table with data
+            data.forEach((participant, index) => {
+              const row = document.createElement("tr");
+
+              row.innerHTML = `
+                <td>${index + 1}</td>
+                <td class="accent">${participant.name || "N/A"}</td>
+                <td>${participant.rollno || "N/A"}</td>
+                <td>${participant.event || "N/A"}</td>
+              `;
+
+              tableBody.appendChild(row);
+            });
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error);
+            document.getElementById("loading").textContent =
+              "Error loading participants. Please try again later.";
+          });
+      });
+    </script>
+  </body>
+</html>

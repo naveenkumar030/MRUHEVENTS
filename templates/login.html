@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+
+    <style>
+      :root {
+        --primary: #2b328c; /* Deep blue */
+        --accent: #f46a1c; /* Vibrant orange */
+        --light-bg: #f8f9fa; /* Light background */
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--light-bg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        color: #333;
+      }
+
+      .login-container {
+        background-color: #ffffff;
+        padding: 40px 50px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: left;
+        border-top: 4px solid var(--accent);
+      }
+
+      .logo {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .logo img {
+        width: 100px;
+        height: auto;
+      }
+
+      h1 {
+        font-size: 2em;
+        color: var(--primary);
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      .login-container > p {
+        font-size: 1em;
+        color: #666;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      form label {
+        display: block;
+        font-size: 0.9em;
+        color: var(--primary);
+        margin-bottom: 8px;
+        margin-top: 20px;
+        font-weight: 500;
+      }
+
+      form input[type="email"],
+      form input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        background-color: #fdfafa;
+        font-size: 1em;
+        color: #333;
+        outline: none;
+        transition: all 0.3s;
+      }
+
+      form input[type="email"]:focus,
+      form input[type="password"]:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 5px rgba(244, 106, 28, 0.2);
+      }
+
+      .forgot-password {
+        text-align: right;
+        margin-top: 8px;
+      }
+
+      .forgot-password a {
+        font-size: 0.85em;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .forgot-password a:hover {
+        text-decoration: underline;
+      }
+
+      .remember-me {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 30px;
+      }
+
+      .remember-me input[type="checkbox"] {
+        accent-color: var(--accent);
+        margin-right: 8px;
+        width: 16px;
+        height: 16px;
+      }
+
+      .remember-me label {
+        margin: 0;
+        font-size: 0.9em;
+        color: #555;
+      }
+
+      button[type="submit"] {
+        width: 100%;
+        padding: 14px;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 20px;
+        font-weight: 600;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #1a226b;
+        transform: translateY(-1px);
+      }
+
+      .register-text {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 0.9em;
+        color: #666;
+      }
+
+      .register-text a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .register-text a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 480px) {
+        .login-container {
+          padding: 30px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="logo">
+        <img
+          src="https://static.wixstatic.com/media/6685d7_686c085bd3864f3e8ae805bfc3407db3~mv2.png/v1/fill/w_420,h_393,al_c,lg_1,q_85,enc_avif,quality_auto/MRU-Logo2.png"
+          alt="Logo"
+        />
+      </div>
+      <h1>Login</h1>
+      <p>Introduce your information to sign in.</p>
+
+      <form action="/login" method="POST" autocomplete="off">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
+
+        <div class="forgot-password">
+          <a href="{{ url_for('reset_bp.update_user_password') }}"
+            >Forgot password?</a
+          >
+        </div>
+
+        <div class="remember-me">
+          <input type="checkbox" id="remember" name="remember" checked />
+          <label for="remember">Remember me</label>
+        </div>
+
+        <button type="submit">Login</button>
+      </form>
+
+      <p class="register-text">
+        Don't have an account?
+        <a href="{{ url_for('register') }}">Register now</a>
+      </p>
+    </div>
+  </body>
+</html>

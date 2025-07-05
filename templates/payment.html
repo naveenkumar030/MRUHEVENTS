@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Event UPI Payment</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #e0f7fa, #e1bee7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      .container {
+        background-color: #fff;
+        padding: 30px 40px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        max-width: 450px;
+        width: 100%;
+        text-align: center;
+      }
+
+      .logo {
+        width: 120px;
+        height: auto;
+        margin-bottom: 16px;
+      }
+
+      h2 {
+        margin-bottom: 24px;
+        color: #4a148c;
+      }
+
+      label {
+        font-weight: 600;
+        margin-top: 12px;
+        display: block;
+        text-align: left;
+        color: #333;
+      }
+
+      select,
+      input {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        margin-top: 8px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        transition: border 0.2s ease-in-out;
+      }
+
+      select:focus,
+      input:focus {
+        border-color: #f46a1c;
+        outline: none;
+      }
+
+      button {
+        margin-top: 20px;
+        width: 100%;
+        padding: 14px;
+        background-color: #f46a1c;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+      }
+
+      button:hover {
+        background-color: #f46a1c;
+      }
+
+      .loading {
+        text-align: center;
+        margin-top: 10px;
+        color: #f46a1c;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img
+        class="logo"
+        src="https://static.wixstatic.com/media/6685d7_686c085bd3864f3e8ae805bfc3407db3~mv2.png/v1/fill/w_420,h_393,al_c,lg_1,q_85,enc_avif,quality_auto/MRU-Logo2.png"
+        alt="MRU Logo"
+      />
+
+      <h2>Choose an Event & Pay</h2>
+
+      <form id="paymentForm" action="/generate_qr" method="POST">
+        <label for="event">Select Event:</label>
+        <select name="event" id="event" required>
+          <option value="">-- Select --</option>
+          {% for e in events %}
+          <option value="{{ e.event }}" data-price="{{ e.amountPaid }}">
+            {{ e.event }} — ₹{{ e.amountPaid }}
+          </option>
+          {% endfor %}
+        </select>
+
+        <label for="amountPaid">Amount:</label>
+        <input
+          type="text"
+          name="amountPaid"
+          id="amountPaid"
+          readonly
+          required
+        />
+        <label for="email">Your Email:</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="example@gmail.com"
+          required
+        />
+
+        <button type="submit">Generate UPI QR</button>
+        <div id="loading" class="loading">Generating QR Code...</div>
+        <p>
+          Receipt
+          <a href="{{ url_for('payment_bp.payment') }}">Here</a>
+        </p>
+      </form>
+    </div>
+
+    <script>
+      const eventDropdown = document.getElementById("event");
+      const amountInput = document.getElementById("amountPaid");
+      const form = document.getElementById("paymentForm");
+      const loadingText = document.getElementById("loading");
+
+      // Update price on selection
+      eventDropdown.addEventListener("change", () => {
+        const selected = eventDropdown.selectedOptions[0];
+        const price = selected.getAttribute("data-price");
+        amountInput.value = price || "";
+      });
+
+      // Form validation + loading message
+      form.addEventListener("submit", (e) => {
+        const eventSelected = eventDropdown.value;
+        const amountValue = amountInput.value;
+
+        if (!eventSelected || !amountValue) {
+          e.preventDefault();
+          alert("Please select an event to generate the QR code.");
+          return;
+        }
+
+        loadingText.style.display = "block";
+        setTimeout(() => (loadingText.style.display = "none"), 3000);
+      });
+    </script>
+  </body>
+</html>

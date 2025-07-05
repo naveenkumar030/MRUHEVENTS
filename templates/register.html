@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Events Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+        max-width: 850px;
+        width: 100%;
+      }
+
+      .logo {
+        display: block;
+        margin: 0 auto 20px auto;
+        max-width: 150px;
+        height: auto;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+      }
+
+      form {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px 25px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      select {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: #673ab7;
+      }
+
+      .terms-checkbox {
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+        grid-column: span 2;
+      }
+
+      .terms-checkbox input {
+        margin-right: 8px;
+      }
+
+      .terms-checkbox a {
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      .terms-checkbox a:hover {
+        text-decoration: underline;
+      }
+
+      .btn-submit {
+        width: 100%;
+        padding: 14px;
+        font-size: 1rem;
+        background: linear-gradient(to right, #e91e63, #673ab7);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        grid-column: span 2;
+      }
+
+      .btn-submit:hover {
+        background: linear-gradient(to right, #d81b60, #5e35b1);
+      }
+
+      .email-otp-group {
+        display: flex;
+        gap: 10px;
+      }
+
+      .email-otp-group input {
+        flex: 1;
+      }
+
+      .email-otp-group button {
+        padding: 12px;
+        background-color: #673ab7;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .email-otp-group button:hover {
+        background-color: #5e35b1;
+      }
+
+      @media (max-width: 600px) {
+        .btn-submit,
+        .terms-checkbox {
+          grid-column: span 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img
+        src="https://static.wixstatic.com/media/6685d7_686c085bd3864f3e8ae805bfc3407db3~mv2.png/v1/fill/w_420,h_393,al_c,lg_1,q_85,enc_avif,quality_auto/MRU-Logo2.png"
+        alt="MRUH Logo"
+        class="logo"
+      />
+      <h1>Events Registration</h1>
+
+      <form id="registerForm" action="{{ url_for('login1') }}" method="POST">
+        <div class="form-group">
+          <input type="text" name="name" placeholder="Full Name" required />
+        </div>
+
+        <div class="form-group">
+          <input type="text" name="rollno" placeholder="Roll Number" required />
+        </div>
+
+        <div class="form-group email-otp-group">
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email Address"
+            required
+          />
+          <button type="button" onclick="sendOtp()" id="sendOtpBtn">
+            Send OTP
+          </button>
+        </div>
+
+        <div class="form-group">
+          <input
+            type="text"
+            name="otp"
+            placeholder="Enter OTP"
+            maxlength="6"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <select name="year" required>
+            <option value="" disabled selected>Select Year</option>
+            <option value="1st Year">1st Year</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="4th Year">4th Year</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <select name="branch" required>
+            <option value="" disabled selected>Select Branch</option>
+            <option value="CSE">CSE</option>
+            <option value="IT">IT</option>
+            <option value="AIML">AIML</option>
+            <option value="DS">DS</option>
+            <option value="CS">CS</option>
+            <option value="ECE">ECE</option>
+            <option value="OTHER">OTHER</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            type="password"
+            name="re_password"
+            placeholder="Re-enter Password"
+            required
+          />
+        </div>
+
+        <div class="terms-checkbox">
+          <input type="checkbox" name="terms" required />
+          <label>
+            I agree to the
+            <a href="{{ url_for('terms') }}">Terms and Conditions</a>
+          </label>
+        </div>
+
+        <button type="submit" class="btn-submit">Submit</button>
+      </form>
+    </div>
+
+    <script>
+      let timerInterval;
+
+      function sendOtp() {
+        const email = document.getElementById("email").value;
+        const otpButton = document.getElementById("sendOtpBtn");
+
+        if (!email) {
+          alert("Please enter your email first.");
+          return;
+        }
+
+        fetch("/send-otp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            alert(data.message);
+            if (data.message.startsWith("✅")) {
+              startOtpTimer(120); // 2 minutes
+            }
+          })
+          .catch((err) => {
+            alert("Error sending OTP.");
+            console.error(err);
+          });
+      }
+
+      function startOtpTimer(seconds) {
+        const otpButton = document.getElementById("sendOtpBtn");
+        let remaining = seconds;
+
+        otpButton.disabled = true;
+        updateButtonText(remaining);
+
+        timerInterval = setInterval(() => {
+          remaining--;
+          updateButtonText(remaining);
+
+          if (remaining <= 0) {
+            clearInterval(timerInterval);
+            otpButton.disabled = false;
+            otpButton.innerText = "Resend OTP";
+          }
+        }, 1000);
+      }
+
+      function updateButtonText(seconds) {
+        const otpButton = document.getElementById("sendOtpBtn");
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        otpButton.innerText = `Wait ${mins}:${secs < 10 ? "0" : ""}${secs}`;
+      }
+    </script>
+  </body>
+</html>

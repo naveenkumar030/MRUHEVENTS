@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #2b328c;
+        --accent: #f46a1c;
+        --light-bg: #f8f9fa;
+        --text-light: #ffffff;
+        --text-dark: #333333;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--light-bg);
+        color: var(--text-dark);
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo-container {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .logo-box {
+        background-color: white;
+        padding: 4px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+      }
+
+      .logo {
+        height: 60px;
+        width: auto;
+      }
+
+      .university-name {
+        font-weight: 700;
+        color: var(--primary);
+        margin: 10px 0 5px 0;
+        font-size: 1.5rem;
+      }
+
+      .university-motto {
+        font-size: 0.9em;
+        color: rgba(0, 0, 0, 0.6);
+        font-style: italic;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        color: var(--primary);
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 2px solid var(--accent);
+        padding-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--primary);
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="number"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: "Poppins", sans-serif;
+        font-size: 16px;
+        transition: border 0.3s;
+        box-sizing: border-box;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: var(--accent);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(244, 106, 28, 0.2);
+      }
+
+      textarea {
+        min-height: 150px;
+        resize: vertical;
+      }
+
+      .btn {
+        background-color: var(--accent);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        display: block;
+        width: 100%;
+        font-weight: 600;
+      }
+
+      .btn:hover {
+        background-color: #d45a16;
+      }
+
+      .btn:active {
+        transform: translateY(1px);
+      }
+
+      .required:after {
+        content: " *";
+        color: var(--accent);
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          margin: 20px;
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo-container">
+        <div class="logo-box">
+          <img
+            class="logo"
+            src="https://static.wixstatic.com/media/6685d7_686c085bd3864f3e8ae805bfc3407db3~mv2.png/v1/fill/w_420,h_393,al_c,lg_1,q_85,enc_avif,quality_auto/MRU-Logo2.png"
+            alt="Mallareddy University Logo"
+          />
+        </div>
+      </div>
+
+      <h1>Contact Form</h1>
+
+      <form id="contactForm">
+        <div class="form-group">
+          <label for="name" class="required">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            placeholder="Enter your full name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="required">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            placeholder="Enter your email address"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="rollno">Roll Number</label>
+          <input
+            type="text"
+            id="rollno"
+            name="rollno"
+            placeholder="Enter your roll number"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="subject" class="required">Subject</label>
+          <select id="subject" name="subject" required>
+            <option value="" disabled selected>Select a subject</option>
+            <option value="General Inquiry">General Inquiry</option>
+            <option value="Technical Support">Technical Support</option>
+            <option value="Feedback">Feedback</option>
+            <option value="Complaint">Complaint</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message" class="required">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            required
+            placeholder="Type your message here..."
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn">Send Message</button>
+      </form>
+    </div>
+    <script>
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const form = this;
+          const submitBtn = form.querySelector('button[type="submit"]');
+          const originalText = submitBtn.textContent;
+
+          // Loading state
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Sending...
+    `;
+
+          try {
+            const response = await fetch("/submit_contact", {
+              method: "POST",
+              body: new FormData(form),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) throw new Error(data.message || "Server error");
+
+            // Success case
+            alert(data.message);
+            form.reset();
+
+            // Optional: Show success message on page
+            const successDiv = document.createElement("div");
+            successDiv.className = "alert alert-success mt-3";
+            successDiv.textContent = data.message;
+            form.parentNode.insertBefore(successDiv, form.nextSibling);
+
+            // Remove message after 5 seconds
+            setTimeout(() => successDiv.remove(), 5000);
+          } catch (error) {
+            console.error("Submission error:", error);
+            alert(`Error: ${error.message}`);
+          } finally {
+            // Reset button state
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+          }
+        });
+    </script>
+  </body>
+</html>

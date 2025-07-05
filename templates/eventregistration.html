@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Registration | MRU</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 40px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .logo {
+        height: 80px;
+        margin-bottom: 15px;
+      }
+      h1 {
+        color: #2b328c;
+        text-align: center;
+        border-bottom: 3px solid #f46a1c;
+        padding-bottom: 12px;
+        margin-top: 0;
+        font-size: 28px;
+      }
+      label {
+        font-weight: 500;
+        color: #2b328c;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 15px;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 12px 15px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-family: "Poppins", sans-serif;
+        font-size: 15px;
+        transition: all 0.3s;
+      }
+      input:focus,
+      select:focus {
+        border-color: #f46a1c;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(244, 106, 28, 0.2);
+      }
+      .btn {
+        background-color: #f46a1c;
+        color: white;
+        padding: 14px 25px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+        margin-top: 10px;
+        transition: all 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .btn:hover {
+        background-color: #d45a16;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(244, 106, 28, 0.3);
+      }
+      .form-group {
+        margin-bottom: 5px;
+      }
+      .required:after {
+        content: " *";
+        color: #f46a1c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <img
+          src="https://static.wixstatic.com/media/6685d7_686c085bd3864f3e8ae805bfc3407db3~mv2.png/v1/fill/w_420,h_393,al_c,lg_1,q_85,enc_avif,quality_auto/MRU-Logo2.png"
+          alt="MRU Logo"
+          class="logo"
+        />
+        <h1>Event Registration</h1>
+      </div>
+
+      <form id="registrationForm">
+        <div class="form-group">
+          <label class="required">Name of the Student</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+
+        <div class="form-group">
+          <label class="required">Branch</label>
+          <select id="branch" name="branch" required>
+            <option value="" disabled selected>Select branch</option>
+            <option value="CSE">Computer Science and Engineering</option>
+            <option value="ECE">
+              Electronics and Communication Engineering
+            </option>
+            <option value="EEE">Electrical and Electronics Engineering</option>
+            <option value="ME">Mechanical Engineering</option>
+            <option value="CE">Civil Engineering</option>
+            <option value="IT">Information Technology</option>
+            <option value="AIML">
+              Artificial Intelligence & Machine Learning
+            </option>
+            <option value="DS">Data Science</option>
+            <option value="CSBS">Computer Science & Business Systems</option>
+            <option value="CIV">Civil Engineering (Advanced Structures)</option>
+            <option value="AE">Aerospace Engineering</option>
+            <option value="AGRI">Agricultural Engineering</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="required">Roll No</label>
+          <input type="text" id="rollno" name="rollno" required />
+        </div>
+
+        <div class="form-group">
+          <label class="required">Event</label>
+          <select id="event" name="event" required>
+            <option value="" disabled selected>Select event</option>
+            <option value="Hackathon">Hackathon</option>
+            <option value="Robotics">Robotics Workshop</option>
+            <option value="Debate">Debate Competition</option>
+            <option value="Coding">Coding Challenge</option>
+            <option value="Paper">Paper Presentation</option>
+            <option value="Quiz">Technical Quiz</option>
+            <option value="Gaming">E-Sports Tournament</option>
+            <option value="ProjectExpo">Project Expo</option>
+            <option value="Poster">Poster Presentation</option>
+            <option value="IdeaPitch">Startup/Idea Pitch</option>
+            <option value="TreasureHunt">Tech Treasure Hunt</option>
+            <option value="Seminar">Technical Seminar</option>
+            <option value="ModelExpo">Model/Prototype Expo</option>
+            <option value="Photography">Photography Contest</option>
+            <option value="Cultural">Cultural Fest</option>
+            <option value="Dance">Group Dance</option>
+            <option value="Singing">Singing Competition</option>
+            <option value="Drama">Drama/Street Play</option>
+            <option value="WorkshopAI">AI/ML Workshop</option>
+            <option value="WorkshopCyber">Cybersecurity Workshop</option>
+            <option value="WebDev">Web Development Contest</option>
+            <option value="AppDev">App Development Contest</option>
+            <option value="FoodFestival">Food Festival</option>
+            <option value="FoodTasting">Food Tasting</option>
+            <option value="CookingCompetition">Cooking Competition</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="required">Registered Date</label>
+          <input type="date" id="date" name="date" required />
+        </div>
+
+        <div class="form-group">
+          <label class="required">Team Size</label>
+          <select id="teamSize" name="teamSize" required>
+            <option value="1">(ATLEAST 4)</option>
+            <option value="2">5</option>
+            <option value="3">6</option>
+            <option value="4">7</option>
+            <option value="5">MORE</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="required">Amount Paid (₹)</label>
+          <input
+            type="number"
+            id="amountPaid"
+            name="amountPaid"
+            required
+            min="0"
+            step="100"
+          />
+        </div>
+
+        <button type="submit" class="btn">Complete Registration</button>
+      </form>
+    </div>
+
+    <script>
+      document
+        .getElementById("registrationForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const data = {
+            name: document.getElementById("name").value,
+            branch: document.getElementById("branch").value,
+            rollno: document.getElementById("rollno").value,
+            event: document.getElementById("event").value,
+            date: document.getElementById("date").value,
+            teamSize: document.getElementById("teamSize").value,
+            amountPaid: document.getElementById("amountPaid").value,
+          };
+
+          try {
+            const res = await fetch("/register2", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            });
+
+            const result = await res.json();
+            if (result.success) {
+              alert("✅ " + result.message);
+              document.getElementById("registrationForm").reset();
+            } else {
+              alert("❌ " + result.message);
+            }
+          } catch (err) {
+            alert("Server error: " + err);
+          }
+        });
+
+      // Set default date to today
+      document.getElementById("date").valueAsDate = new Date();
+    </script>
+  </body>
+</html>
