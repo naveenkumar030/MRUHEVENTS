@@ -42,17 +42,20 @@ SENDER_PASSWORD = "opnatolaqxlmetqs"  # Gmail App Password
 @app.route("/")
 def index():
     return render_template("login.html")
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password'].encode('utf-8')
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '').encode('utf-8')
+
+        if not email or not password:
+            flash("⚠️ Please fill out both email and password fields.", 'warning')
+            return redirect(url_for('login'))
 
         user = collection.find_one({"email": email})
 
-        if user:
-            stored_hash = user['password'].encode('utf-8')  # stored as bcrypt string
+        if user and 'password' in user:
+            stored_hash = user['password'].encode('utf-8')
             if bcrypt.checkpw(password, stored_hash):
                 session['user'] = email
                 flash('✅ Login successful', 'success')
@@ -60,10 +63,12 @@ def login():
             else:
                 flash('❌ Incorrect password.', 'error')
         else:
-            flash('❌ Email not found.', 'error')
+            flash('❌ Email not found or user data corrupted.', 'error')
+
         return redirect(url_for('login'))
 
     return render_template("login.html")
+   
 
 @app.route('/logout')
 def logout():
