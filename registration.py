@@ -71,7 +71,7 @@ def login():
         else:
             flash('❌ Email not found or user record invalid.', 'error')
 
-        return redirect(url_for('login'))
+        return redirect(url_for('main'))
 
     return render_template("login.html")
 
