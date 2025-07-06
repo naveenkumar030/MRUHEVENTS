@@ -43,32 +43,38 @@ SENDER_PASSWORD = "opnatolaqxlmetqs"  # Gmail App Password
 def index():
     return render_template("login.html")
 @app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form.get('email', '').strip()
-        password = request.form.get('password', '').encode('utf-8')
+        password_raw = request.form.get('password', '')
 
-        if not email or not password:
+        if not email or not password_raw:
             flash("⚠️ Please fill out both email and password fields.", 'warning')
             return redirect(url_for('login'))
 
         user = collection.find_one({"email": email})
-
         if user and 'password' in user:
-            stored_hash = user['password'].encode('utf-8')
-            if bcrypt.checkpw(password, stored_hash):
-                session['user'] = email
-                flash('✅ Login successful', 'success')
-                return redirect(url_for('home'))
-            else:
-                flash('❌ Incorrect password.', 'error')
+            try:
+                stored_hash = user['password'].encode('utf-8')  # stored hash (bcrypt)
+                password_bytes = password_raw.encode('utf-8')
+
+                if bcrypt.checkpw(password_bytes, stored_hash):
+                    session['user'] = email
+                    flash('✅ Login successful', 'success')
+                    return redirect(url_for('home'))
+                else:
+                    session.pop('user', None)
+                    flash('❌ Incorrect password.', 'error')
+            except Exception as e:
+                flash(f'❌ Error during login: {str(e)}', 'error')
         else:
-            flash('❌ Email not found or user data corrupted.', 'error')
+            flash('❌ Email not found or user record invalid.', 'error')
 
         return redirect(url_for('login'))
 
     return render_template("login.html")
-   
+
 
 @app.route('/logout')
 def logout():
