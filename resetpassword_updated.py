@@ -79,16 +79,19 @@ def update_user_password():
     if new_pass != confirm_pass:
         return jsonify(success=False, message="❌ Passwords do not match.")
 
+    # Hash new password
     hashed_new_password = bcrypt.hashpw(new_pass.encode("utf-8"), bcrypt.gensalt())
 
+# Update password in DB
     user_data_collection.update_one(
-        {"email": saved_email},
-        {"$set": {"password": hashed_new_password.decode('utf-8')}}
-    )
+    {"email": saved_email},
+    {"$set": {"password": hashed_new_password.decode('utf-8')}}
+)
+
 
     session.pop("otp", None)
     session.pop("otp_email", None)
     session.pop("otp_time", None)
 
     return jsonify(success=True, message="✅ Your password has been reset successfully.")
-    return render_template('login.html')
+    
