@@ -249,7 +249,7 @@ def get_profile():
     if not email:
         return jsonify({'error': 'Email is required'}), 400
 
-    student = collectionpp.find_one({'email': email})
+    student = collection.find_one({'email': email})
     if student:
         return jsonify({
             'name': student.get('name', 'Unknown'),
