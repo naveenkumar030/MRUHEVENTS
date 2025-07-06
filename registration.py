@@ -42,36 +42,26 @@ SENDER_PASSWORD = "opnatolaqxlmetqs"  # Gmail App Password
 @app.route("/")
 def index():
     return render_template("login.html")
-@app.route('/login', methods=['GET', 'POST'])
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form.get('email', '').strip()
-        password_raw = request.form.get('password', '')
-
-        if not email or not password_raw:
-            flash("⚠️ Please fill out both email and password fields.", 'warning')
-            return redirect(url_for('login'))
+        email = request.form['email']
+        password = request.form['password']
 
         user = collection.find_one({"email": email})
-        if user and 'password' in user:
-            try:
-                stored_hash = user['password'].encode('utf-8')  # stored hash (bcrypt)
-                password_bytes = password_raw.encode('utf-8')
 
-                if bcrypt.checkpw(password_bytes, stored_hash):
-                    session['user'] = email
-                    flash('✅ Login successful', 'success')
-                    return redirect(url_for('home'))
-                else:
-                    session.pop('user', None)
-                    flash('❌ Incorrect password.', 'error')
-            except Exception as e:
-                flash(f'❌ Error during login: {str(e)}', 'error')
+        if user:
+            stored_hash = user['password'].encode('utf-8')  # stored as bcrypt string
+            if bcrypt.checkpw(password.encode('utf-8'), stored_hash):
+                session['user'] = email
+                flash('✅ Login successful', 'success')
+                return redirect(url_for('home'))
+            else:
+                flash('❌ Incorrect password.', 'error')
         else:
-            flash('❌ Email not found or user record invalid.', 'error')
-
-        return redirect(url_for('main'))
+            flash('❌ Email not found.', 'error')
+        return redirect(url_for('login'))
 
     return render_template("login.html")
 
@@ -151,21 +141,17 @@ def login1():  # ✅ Function name matches the endpoint now
         return "❌ Email already exists. Please login instead.", 409
 
     # Hash password
-    hashed = hash_password(password)
+    hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
-    
-
-
-    # Insert user data
+# Store user data
     user_data = {
-        "name": name,
-        "rollno": rollno,
-        "email": email,
-        "year": year,
-        "branch": branch,
-        "password":hashed
-        
-    }
+    "name": name,
+    "rollno": rollno,
+    "email": email,
+    "year": year,
+    "branch": branch,
+    "password": hashed.decode('utf-8')  # Store as string
+}
 
     collection.insert_one(user_data)
     return render_template('login.html')
